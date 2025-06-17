@@ -1,0 +1,173 @@
+[gd_scene load_steps=16 format=3 uid="uid://l8ibi37etkq4"]
+
+[ext_resource type="Texture2D" uid="uid://c34ulfm72v8ai" path="res://assets/schlera-Sheet.png" id="1_60o0r"]
+[ext_resource type="Texture2D" uid="uid://j0kkvc64at7i" path="res://assets/whitervisionlight.png" id="1_e6m2j"]
+[ext_resource type="Script" uid="uid://1y6a3r0ieyd1" path="res://scripts/eye.gd" id="1_hrmh8"]
+[ext_resource type="Texture2D" uid="uid://bodswg0co133v" path="res://assets/pupil.png" id="2_e6m2j"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hrmh8"]
+radius = 14.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7wf7k"]
+atlas = ExtResource("1_60o0r")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n7k8g"]
+atlas = ExtResource("1_60o0r")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v166x"]
+atlas = ExtResource("1_60o0r")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m25an"]
+atlas = ExtResource("1_60o0r")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yf4me"]
+atlas = ExtResource("1_60o0r")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_npxln"]
+atlas = ExtResource("1_60o0r")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_waywy"]
+atlas = ExtResource("1_60o0r")
+region = Rect2(256, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n4w2j"]
+atlas = ExtResource("1_60o0r")
+region = Rect2(384, 128, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ngcto"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7wf7k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n7k8g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v166x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m25an")
+}],
+"loop": false,
+"name": &"close",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yf4me")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_npxln")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_waywy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n4w2j")
+}],
+"loop": false,
+"name": &"open",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ck3r8"]
+radius = 5.0
+
+[node name="eye" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_hrmh8")
+moves = Array[int]([0, 2, 1, 3])
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_left = -101.0
+offset_top = -19.0
+offset_right = 109.0
+offset_bottom = 120.0
+color = Color(0.43, 0.43, 0.43, 1)
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_hrmh8")
+metadata/_edit_lock_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ngcto")
+animation = &"close"
+metadata/_edit_lock_ = true
+
+[node name="pupil" type="CharacterBody2D" parent="."]
+position = Vector2(1, 0)
+collision_layer = 0
+collision_mask = 0
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="PupilSprite" type="Sprite2D" parent="pupil"]
+position = Vector2(0, 4)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_e6m2j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pupil"]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_ck3r8")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+scale = Vector2(1, 10)
+target_position = Vector2(113, 0)
+collision_mask = 7
+metadata/_edit_lock_ = true
+
+[node name="visionCone" type="PointLight2D" parent="."]
+position = Vector2(-3, -42)
+rotation = 3.42956
+energy = 4.0
+shadow_enabled = true
+texture = ExtResource("1_e6m2j")
+metadata/_edit_group_ = true
+
+[node name="visionArea" type="Area2D" parent="visionCone"]
+position = Vector2(-3, -56)
+collision_layer = 4
+collision_mask = 7
+metadata/_edit_lock_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="visionCone/visionArea"]
+position = Vector2(-1, 4)
+polygon = PackedVector2Array(-12, 4, 16, 5, 41, 101, 15, 108, 9, 109, -5, 109, -18, 107, -36, 101, -13, 6)
+metadata/_edit_lock_ = true
+
+[node name="pupilPositions" type="Node2D" parent="."]
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="right" type="Marker2D" parent="pupilPositions"]
+position = Vector2(11, 4)
+
+[node name="down" type="Marker2D" parent="pupilPositions"]
+position = Vector2(1, 10)
+
+[node name="left" type="Marker2D" parent="pupilPositions"]
+position = Vector2(-10, 4)
+
+[node name="up" type="Marker2D" parent="pupilPositions"]
+position = Vector2(1, -2)
+
+[node name="center" type="Marker2D" parent="pupilPositions"]
+position = Vector2(1, 4)
+
+[node name="moveTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="visionCone/visionArea" to="." method="_on_vision_area_body_entered"]
+[connection signal="body_exited" from="visionCone/visionArea" to="." method="_on_vision_area_body_exited"]
+[connection signal="timeout" from="moveTimer" to="." method="_on_move_timer_timeout"]

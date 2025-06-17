@@ -1,0 +1,80 @@
+[gd_scene load_steps=7 format=3 uid="uid://geq8au8k1fnf"]
+
+[ext_resource type="PackedScene" uid="uid://brbu3jpu36b24" path="res://scenes/player.tscn" id="1_2q6dc"]
+[ext_resource type="PackedScene" uid="uid://l8ibi37etkq4" path="res://scenes/eye.tscn" id="2_w7c3h"]
+[ext_resource type="Texture2D" uid="uid://c3t53furujcx5" path="res://icon.svg" id="3_w8frs"]
+[ext_resource type="PackedScene" uid="uid://cise6s2xgyx1f" path="res://scenes/box.tscn" id="4_mx8sn"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_mx8sn"]
+polygon = PackedVector2Array(59.1, -64, -59, -64, -63.8, -59, -64, 61, -60.3, 64, 59.6, 64, 63.9, 59, 64, -61.1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w8frs"]
+size = Vector2(126.769, 124.061)
+
+[node name="level" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(500, 500)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -212.0
+offset_top = -106.0
+offset_right = 1365.0
+offset_bottom = 776.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12, 0.12, 0.12, 1)
+
+[node name="player" parent="." instance=ExtResource("1_2q6dc")]
+modulate = Color(0.23, 0.23, 0.23, 1)
+position = Vector2(155, 124)
+scale = Vector2(0.5, 0.5)
+
+[node name="Camera2D" type="Camera2D" parent="player"]
+zoom = Vector2(2, 2)
+
+[node name="eye" parent="." instance=ExtResource("2_w7c3h")]
+position = Vector2(276, 136)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.55, 0.55, 0.55, 1)
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+
+[node name="Icon2" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(313, 396)
+scale = Vector2(0.445312, 2.78516)
+texture = ExtResource("3_w8frs")
+metadata/_edit_group_ = true
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Icon2"]
+position = Vector2(1, -2)
+occluder = SubResource("OccluderPolygon2D_mx8sn")
+
+[node name="eye2" parent="." instance=ExtResource("2_w7c3h")]
+position = Vector2(-43, 334)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="StaticBody2D"]
+position = Vector2(214.063, 422.984)
+scale = Vector2(4.0625, 0.507813)
+occluder = SubResource("OccluderPolygon2D_mx8sn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(212.5, 423.5)
+scale = Vector2(4.0625, 0.507813)
+shape = SubResource("RectangleShape2D_w8frs")
+
+[node name="Icon" type="Sprite2D" parent="StaticBody2D"]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(210, 424)
+scale = Vector2(4.0625, 0.507813)
+texture = ExtResource("3_w8frs")
+metadata/_edit_group_ = true
+
+[node name="box" parent="." instance=ExtResource("4_mx8sn")]
+position = Vector2(63, 205)
+scale = Vector2(1.12, 0.720001)
