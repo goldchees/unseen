@@ -121,8 +121,8 @@ position = Vector2(0, 4)
 shape = SubResource("CircleShape2D_ck3r8")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-scale = Vector2(10, 1)
-target_position = Vector2(0, 113)
+scale = Vector2(1, 20)
+target_position = Vector2(113, 0)
 collision_mask = 7
 metadata/_edit_lock_ = true
 

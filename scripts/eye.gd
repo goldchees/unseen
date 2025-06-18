@@ -24,12 +24,6 @@ extends CharacterBody2D
 #var count_dir: String = "forward"
 #var reverse_moves: Array[states] = []
 
-@onready var vision_cone: PointLight2D = $visionCone
-var vision_positions: Dictionary = {
-	"down": {"position": Vector2(3,57), "rotation": 0},
-	"up": {"position": Vector2(-1,-48), "rotation": 180},
-}
-
 var player_inrange
 var player_in_sight
 
@@ -73,14 +67,10 @@ func _physics_process(delta: float) -> void:
 		states.up:
 			#print("up")
 			pupil.global_position = pupil.global_position.move_toward(up.global_position, pupil_speed * delta)
-			vision_cone.position = vision_positions["up"]["position"]
-			vision_cone.rotation = vision_positions["up"]["rotation"]
-			
+
 		states.down:
 			#print("down")
 			pupil.global_position = pupil.global_position.move_toward(down.global_position, pupil_speed * delta)
-			vision_cone.position = vision_positions["down"]["position"]
-			vision_cone.rotation = vision_positions["down"]["rotation"]
 		states.right:
 			#print("right")
 			pupil.global_position = pupil.global_position.move_toward(right.global_position, pupil_speed * delta)

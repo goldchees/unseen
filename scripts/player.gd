@@ -7,7 +7,7 @@ enum state {walk, idle}
 var current_state: state
 
 var input_direction: Vector2
-var push_speed := 100
+var push_speed := 300
 
 func get_input():
 	input_direction = Input.get_vector("left", "right", "up", "down")

@@ -37,15 +37,12 @@ offset_right = 1365.0
 offset_bottom = 776.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.17, 0.17, 0.17, 1)
+color = Color(0.03, 0.03, 0.03, 1)
 
 [node name="player" parent="." instance=ExtResource("1_2q6dc")]
 modulate = Color(0.23, 0.23, 0.23, 1)
 position = Vector2(155, 124)
 scale = Vector2(0.5, 0.5)
-
-[node name="Camera2D" type="Camera2D" parent="player"]
-zoom = Vector2(2, 2)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color(0.55, 0.55, 0.55, 1)
