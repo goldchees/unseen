@@ -84,6 +84,7 @@ radius = 5.0
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_hrmh8")
+patrol_type = "loop"
 metadata/_edit_lock_ = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -142,25 +143,6 @@ collision_mask = 7
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="visionCone/visionArea"]
 position = Vector2(-1, 4)
 polygon = PackedVector2Array(-12, 4, 16, 5, 41, 101, 15, 108, 9, 109, -5, 109, -18, 107, -36, 101, -13, 6)
-
-[node name="pupilPositions" type="Node2D" parent="."]
-rotation = -1.59589
-metadata/_edit_group_ = true
-
-[node name="right" type="Marker2D" parent="pupilPositions"]
-position = Vector2(11, 4)
-
-[node name="down" type="Marker2D" parent="pupilPositions"]
-position = Vector2(1, 10)
-
-[node name="left" type="Marker2D" parent="pupilPositions"]
-position = Vector2(-10, 4)
-
-[node name="up" type="Marker2D" parent="pupilPositions"]
-position = Vector2(1, -2)
-
-[node name="center" type="Marker2D" parent="pupilPositions"]
-position = Vector2(1, 4)
 
 [node name="moveTimer" type="Timer" parent="."]
 one_shot = true
