@@ -12,10 +12,10 @@ var push_speed := 300
 func get_input():
 	input_direction = Input.get_vector("left", "right", "up", "down")
 	velocity = input_direction * speed
-	if velocity != Vector2.ZERO:
-		animated_sprite_2d.play('walk')
-	else:
-		animated_sprite_2d.stop()
+	#if velocity != Vector2.ZERO:
+		#animated_sprite_2d.play('walk')
+	#else:
+		#animated_sprite_2d.stop()
 	if Input.is_action_just_pressed("left"):
 		animated_sprite_2d.flip_h = true
 	elif Input.is_action_just_pressed("right"):

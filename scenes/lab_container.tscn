@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dkh8bdlsgf064"]
+
+[ext_resource type="PackedScene" uid="uid://cise6s2xgyx1f" path="res://scenes/moveableObject.tscn" id="1_xcqjp"]
+[ext_resource type="Texture2D" uid="uid://cv5h7wreg8cca" path="res://assets/lab-container.png" id="2_oxlnh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xcqjp"]
+size = Vector2(27, 37)
+
+[node name="labContainer" instance=ExtResource("1_xcqjp")]
+
+[node name="CollisionShape2D" parent="." index="0"]
+y_sort_enabled = true
+position = Vector2(21.5, 25.5)
+shape = SubResource("RectangleShape2D_xcqjp")
+
+[node name="Sprite2D" parent="." index="2"]
+texture = ExtResource("2_oxlnh")

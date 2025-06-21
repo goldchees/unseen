@@ -3,7 +3,6 @@ extends CharacterBody2D
 @onready var player: CharacterBody2D = $"../../../player"
 
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
-@onready var pupil: CharacterBody2D = $pupil
 
 @onready var path_follow_2d: PathFollow2D = $".."
 # patrol types are linear and loop
@@ -16,7 +15,6 @@ var current_state: String
 var player_inrange
 var player_in_sight
 
-var pupil_speed := 20
 @export var eyeSpeed := 0.1
 
 
@@ -59,7 +57,6 @@ func patrol(delta):
 					rotation_degrees = lerp(rotation_degrees, 0.0, 0.2)
 		elif direction == 0:
 			if path_follow_2d.progress_ratio <= 0.1:
-				print("hi")
 				await get_tree().create_timer(0.3).timeout
 				rotation_degrees = lerp(rotation_degrees, 0.0, 0.1)
 				await get_tree().create_timer(1).timeout
@@ -68,8 +65,6 @@ func patrol(delta):
 				path_follow_2d.progress_ratio -= eyeSpeed * delta
 				if rotation_degrees != 180:
 					rotation_degrees = lerp(rotation_degrees, 180.0, 0.2)
-		print(path_follow_2d.progress_ratio)
-
 	
 func attack():
 	look_at(player.global_position)

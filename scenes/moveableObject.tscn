@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://cise6s2xgyx1f"]
+
+[ext_resource type="Script" uid="uid://dd8p3iudnng20" path="res://scripts/box.gd" id="1_3inec"]
+[ext_resource type="Texture2D" uid="uid://1bm2e000f1tg" path="res://assets/crate.png" id="2_ks2v0"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3inec"]
+friction = 0.0
+rough = true
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ks2v0"]
+polygon = PackedVector2Array(0, -3, 42, -3, 42, 40, 0, 40)
+
+[node name="moveableObject" type="RigidBody2D" groups=["boxes"]]
+collision_mask = 7
+physics_material_override = SubResource("PhysicsMaterial_3inec")
+gravity_scale = 0.0
+lock_rotation = true
+linear_damp = 40.0
+script = ExtResource("1_3inec")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(21, 18.5)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_ks2v0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(21, 19)
+texture = ExtResource("2_ks2v0")

@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://brbu3jpu36b24"]
+[gd_scene load_steps=18 format=3 uid="uid://brbu3jpu36b24"]
 
 [ext_resource type="Script" uid="uid://ce2e64rlo31jf" path="res://scripts/player.gd" id="1_g2els"]
+[ext_resource type="Texture2D" uid="uid://84lt8dc1g5xp" path="res://assets/unseen-player.png" id="2_dqkch"]
 [ext_resource type="Texture2D" uid="uid://bjug0xxjv42t4" path="res://assets/Walking.png" id="2_qhqgy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dqkch"]
@@ -55,6 +56,14 @@ region = Rect2(1408, 0, 128, 128)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("2_dqkch")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_dqkch")
 }, {
 "duration": 1.0,
@@ -96,17 +105,19 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qfm1y"]
-size = Vector2(19, 67)
+size = Vector2(13, 28)
 
 [node name="player" type="CharacterBody2D"]
+y_sort_enabled = true
 collision_layer = 2
 script = ExtResource("1_g2els")
+speed = 120
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_a8ls1")
-animation = &"walk"
+animation = &"idle"
 speed_scale = 3.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-4, 29.5)
+position = Vector2(-0.5, 1)
 shape = SubResource("RectangleShape2D_qfm1y")

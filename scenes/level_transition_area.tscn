@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://c2ky8mwuij20o"]
+
+[node name="levelTransitionArea" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
