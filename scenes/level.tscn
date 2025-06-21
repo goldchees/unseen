@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=4 uid="uid://geq8au8k1fnf"]
+[gd_scene load_steps=49 format=4 uid="uid://geq8au8k1fnf"]
 
 [ext_resource type="PackedScene" uid="uid://brbu3jpu36b24" path="res://scenes/player.tscn" id="1_2q6dc"]
 [ext_resource type="Script" uid="uid://dyyq4lokede5t" path="res://scripts/level.gd" id="1_mx8sn"]
@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://cv5h7wreg8cca" path="res://assets/lab-container.png" id="5_olg7q"]
 [ext_resource type="Texture2D" uid="uid://1bm2e000f1tg" path="res://assets/crate.png" id="6_t1rx8"]
 [ext_resource type="PackedScene" uid="uid://dkh8bdlsgf064" path="res://scenes/lab_container.tscn" id="8_b121j"]
+[ext_resource type="PackedScene" uid="uid://cjjyay11s1vf0" path="res://scenes/health.tscn" id="11_t1rx8"]
+[ext_resource type="PackedScene" uid="uid://c2ky8mwuij20o" path="res://scenes/level_transition_area.tscn" id="12_8iemx"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_b121j"]
 texture = ExtResource("2_2r41h")
@@ -375,10 +377,76 @@ _data = {
 }
 point_count = 2
 
+[sub_resource type="Animation" id="Animation_t1rx8"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_8iemx"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.966667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0.0117647), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_64w2a"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0.0117647)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fpun6"]
+_data = {
+&"RESET": SubResource("Animation_64w2a"),
+&"fade_in": SubResource("Animation_8iemx"),
+&"fade_out": SubResource("Animation_t1rx8")
+}
+
 [node name="level" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_mx8sn")
 metadata/_edit_horizontal_guides_ = [-75.0]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = 1
+custom_minimum_size = Vector2(500, 500)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -787.0
+offset_top = -443.0
+offset_right = 790.0
+offset_bottom = 439.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.0117647)
 
 [node name="map" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -397,20 +465,6 @@ tile_set = SubResource("TileSet_t1rx8")
 y_sort_enabled = true
 tile_map_data = PackedByteArray("AAAMAAMAAgAGAAAAAAAMAAIAAgAMAAAAAAAMAAQAAgAGAAAAAAANAAIAAgANAAAAAAAOAAIAAgANAAAAAAAPAAIAAgANAAAAAAAMAAUAAgAOAAAAAAAQAAIAAgAUAAAAAAARAAIAAgAVAAAAAAAQAAMAAgAWAAAAAAAQAAQAAgAWAAAAAAARAAMAAgAXAAAAAAARAAQAAgAXAAAAAAANAAMAAgAYAAAAAAAOAAMAAgAYAAAAAAAPAAMAAgAYAAAAAAAPAAQAAgAYAAAAAAAOAAQAAgAYAAAAAAANAAQAAgAYAAAAAAANAAUAAgAPAAAAAAAOAAUAAgAQAAAAAAAPAAUAAgAPAAAAAAAQAAUAAgAIAAAAAAARAAUAAgAJAAAAAAAMAAYAAgARAAAAAAANAAYAAgASAAAAAAAOAAYAAgATAAAAAAAPAAYAAgASAAAAAAAQAAYAAgAKAAAAAAARAAYAAgALAAAAAAD0/wEAAgAMAAAAAAD0/wIAAgAGAAAAAAD0/wMAAgAGAAAAAAD0/wQAAgAOAAAAAAD0/wUAAgARAAAAAAD1/wEAAgANAAAAAAD1/wIAAgAYAAAAAAD1/wMAAgAYAAAAAAD1/wQAAgAPAAAAAAD1/wUAAgASAAAAAAD2/wEAAgANAAAAAAD2/wIAAgAYAAAAAAD2/wMAAgAYAAAAAAD2/wQAAgAQAAAAAAD2/wUAAgATAAAAAAD3/wEAAgANAAAAAAD3/wIAAgAYAAAAAAD3/wMAAgAYAAAAAAD3/wQAAgAPAAAAAAD3/wUAAgASAAAAAAD4/wEAAgAUAAAAAAD4/wIAAgAWAAAAAAD4/wMAAgAWAAAAAAD4/wQAAgAIAAAAAAD4/wUAAgAKAAAAAAD5/wEAAgAVAAAAAAD5/wIAAgAXAAAAAAD5/wMAAgAXAAAAAAD5/wQAAgAJAAAAAAD5/wUAAgALAAAAAAD9//j/AgAMAAAAAAD9//n/AgAGAAAAAAD9//r/AgAGAAAAAAD9//v/AgAOAAAAAAD9//z/AgARAAAAAAD+//j/AgANAAAAAAD+//n/AgAYAAAAAAD+//r/AgAYAAAAAAD+//v/AgAPAAAAAAD+//z/AgASAAAAAAD///j/AgANAAAAAAD///n/AgAYAAAAAAD///r/AgAYAAAAAAD///v/AgAQAAAAAAD///z/AgATAAAAAAAAAPj/AgANAAAAAAAAAPn/AgAYAAAAAAAAAPr/AgAYAAAAAAAAAPv/AgAPAAAAAAAAAPz/AgASAAAAAAABAPj/AgAUAAAAAAABAPn/AgAWAAAAAAABAPr/AgAWAAAAAAABAPv/AgAIAAAAAAABAPz/AgAKAAAAAAACAPj/AgAVAAAAAAACAPn/AgAXAAAAAAACAPr/AgAXAAAAAAACAPv/AgAJAAAAAAACAPz/AgALAAAAAAD/////AgAMAAAAAAD//wAAAgAGAAAAAAD//wEAAgAGAAAAAAD//wIAAgAOAAAAAAD//wMAAgARAAAAAAAAAP//AgANAAAAAAAAAAAAAgAYAAAAAAAAAAEAAgAYAAAAAAAAAAIAAgAPAAAAAAAAAAMAAgASAAAAAAABAP//AgANAAAAAAABAAAAAgAYAAAAAAABAAEAAgAYAAAAAAABAAIAAgAQAAAAAAABAAMAAgATAAAAAAACAP//AgANAAAAAAACAAAAAgAYAAAAAAACAAEAAgAYAAAAAAACAAIAAgAPAAAAAAACAAMAAgASAAAAAAADAP//AgAUAAAAAAADAAAAAgAWAAAAAAADAAEAAgAWAAAAAAADAAIAAgAIAAAAAAADAAMAAgAKAAAAAAAEAP//AgAVAAAAAAAEAAAAAgAXAAAAAAAEAAEAAgAXAAAAAAAEAAIAAgAJAAAAAAAEAAMAAgALAAAAAAA=")
 tile_set = SubResource("TileSet_wc255")
-
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-custom_minimum_size = Vector2(500, 500)
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -739.0
-offset_top = -373.0
-offset_right = 838.0
-offset_bottom = 509.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.1, 0.1, 0.1, 1)
 
 [node name="player" parent="." instance=ExtResource("1_2q6dc")]
 position = Vector2(11, -52)
@@ -452,3 +506,22 @@ position = Vector2(-201, -91)
 
 [node name="box" parent="." instance=ExtResource("4_mx8sn")]
 position = Vector2(-62, 2)
+
+[node name="health" parent="." instance=ExtResource("11_t1rx8")]
+position = Vector2(-263, -117)
+
+[node name="playerSpawn" type="Marker2D" parent="."]
+position = Vector2(-276, 3)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+process_mode = 3
+libraries = {
+&"": SubResource("AnimationLibrary_fpun6")
+}
+autoplay = "fade_out"
+
+[node name="levelTransitionArea" parent="." instance=ExtResource("12_8iemx")]
+position = Vector2(293, -187)
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="body_entered" from="levelTransitionArea" to="." method="_on_level_transition_area_body_entered"]

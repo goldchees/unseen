@@ -1,9 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://l8ibi37etkq4"]
+[gd_scene load_steps=17 format=3 uid="uid://l8ibi37etkq4"]
 
 [ext_resource type="Texture2D" uid="uid://c34ulfm72v8ai" path="res://assets/schlera-Sheet.png" id="1_60o0r"]
 [ext_resource type="Texture2D" uid="uid://j0kkvc64at7i" path="res://assets/whitervisionlight.png" id="1_e6m2j"]
 [ext_resource type="Script" uid="uid://1y6a3r0ieyd1" path="res://scripts/eye.gd" id="1_hrmh8"]
-[ext_resource type="Texture2D" uid="uid://bxdly8f25o5r" path="res://assets/scifi-guard.png" id="4_hrmh8"]
+[ext_resource type="Texture2D" uid="uid://r7b83i4au7w5" path="res://assets/scifi-guard-Sheet.png" id="3_7wf7k"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hrmh8"]
 radius = 14.0
@@ -24,6 +24,10 @@ region = Rect2(256, 0, 128, 128)
 atlas = ExtResource("1_60o0r")
 region = Rect2(384, 0, 128, 128)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ngcto"]
+atlas = ExtResource("3_7wf7k")
+region = Rect2(0, 0, 128, 128)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_yf4me"]
 atlas = ExtResource("1_60o0r")
 region = Rect2(0, 128, 128, 128)
@@ -39,6 +43,10 @@ region = Rect2(256, 128, 128, 128)
 [sub_resource type="AtlasTexture" id="AtlasTexture_n4w2j"]
 atlas = ExtResource("1_60o0r")
 region = Rect2(384, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ck3r8"]
+atlas = ExtResource("3_7wf7k")
+region = Rect2(128, 0, 128, 128)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ngcto"]
 animations = [{
@@ -61,6 +69,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_ngcto")
+}],
+"loop": true,
+"name": &"normal",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_yf4me")
 }, {
 "duration": 1.0,
@@ -75,6 +91,29 @@ animations = [{
 "loop": false,
 "name": &"open",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ck3r8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ck3r8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ck3r8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ck3r8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ck3r8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ck3r8")
+}],
+"loop": true,
+"name": &"shoot",
+"speed": 5.0
 }]
 
 [node name="eye" type="CharacterBody2D"]
@@ -98,10 +137,10 @@ rotation = -1.59589
 shape = SubResource("CircleShape2D_hrmh8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-visible = false
-rotation = -1.59589
+rotation = 1.5708
 sprite_frames = SubResource("SpriteFrames_ngcto")
-animation = &"close"
+animation = &"normal"
+frame_progress = 0.0560573
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 scale = Vector2(1, 20)
@@ -116,6 +155,7 @@ color = Color(0.39, 1, 0.4205, 1)
 shadow_enabled = true
 texture = ExtResource("1_e6m2j")
 metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
 
 [node name="visionArea" type="Area2D" parent="visionCone"]
 position = Vector2(-3, -56)
@@ -126,13 +166,12 @@ collision_mask = 7
 position = Vector2(-1, 4)
 polygon = PackedVector2Array(-12, 4, 16, 5, 41, 101, 15, 108, 9, 109, -5, 109, -18, 107, -36, 101, -13, 6)
 
-[node name="moveTimer" type="Timer" parent="."]
-one_shot = true
+[node name="attackTimer" type="Timer" parent="."]
+wait_time = 0.5
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-rotation = 1.5708
-texture = ExtResource("4_hrmh8")
+[node name="bullet_pos" type="Marker2D" parent="."]
+position = Vector2(22, 0)
 
 [connection signal="body_entered" from="visionCone/visionArea" to="." method="_on_vision_area_body_entered"]
 [connection signal="body_exited" from="visionCone/visionArea" to="." method="_on_vision_area_body_exited"]
-[connection signal="timeout" from="moveTimer" to="." method="_on_move_timer_timeout"]
+[connection signal="timeout" from="attackTimer" to="." method="_on_attack_timer_timeout"]

@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @onready var player: CharacterBody2D = $"../../../player"
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
 
@@ -14,13 +15,18 @@ var current_state: String
 
 var player_inrange
 var player_in_sight
+@onready var attack_timer: Timer = $attackTimer
 
 @export var eyeSpeed := 0.1
-
+var can_attack: bool = true
+var bullet = preload("res://scenes/bullet.tscn")
+@onready var bullet_pos: Marker2D = $bullet_pos
 
 func _ready() -> void:
 	current_state = "patrol"
 	direction = 1
+	animated_sprite_2d.animation = 'normal'
+	can_attack = true
 
 func _process(delta: float) -> void:
 	if player_inrange:
@@ -40,6 +46,7 @@ func _physics_process(delta: float) -> void:
 			attack()
 
 func patrol(delta):
+	animated_sprite_2d.animation = 'normal'
 	if patrol_type == "loop":
 		path_follow_2d.progress_ratio += eyeSpeed * delta
 		if rotation_degrees != 0:
@@ -68,6 +75,23 @@ func patrol(delta):
 	
 func attack():
 	look_at(player.global_position)
+	rotation_degrees = wrap(rotation_degrees, 0, 360)
+	if can_attack:
+		animated_sprite_2d.play('shoot')
+		var facing_direction = global_position.direction_to(player.global_position)
+		#var bullet_instance = bullet.instantiate()
+		#get_tree().root.add_child(bullet_instance)
+		player.receive_damage(self, facing_direction)
+		#bullet_instance.position = bullet_pos.global_position
+		#bullet_instance.direction = (player.global_position - global_position)
+		#bullet_instance.rotation = (player.global_position - global_position).angle()
+		
+		await get_tree().create_timer(0.5).timeout
+		can_attack = false
+		attack_timer.start()
+		
+	else:
+		animated_sprite_2d.play('normal')
 	if player_inrange == false:
 		current_state = "patrol"
 	
@@ -79,3 +103,7 @@ func _on_vision_area_body_entered(body: Node2D) -> void:
 func _on_vision_area_body_exited(body: Node2D) -> void:
 	if body.has_method('player'):
 		player_inrange = false
+
+
+func _on_attack_timer_timeout() -> void:
+	can_attack = true
